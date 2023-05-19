@@ -8,10 +8,13 @@ contract Token{
     string public symbol;
     uint256 public decimals = 18;
     uint public totalSupply = 1000000 * (10**decimals);
+    // Tracking balance:
+    mapping(address => uint256) public balanceOf;
 
     constructor(string memory _name,string memory _symbol,uint _totalSupply){
         name= _name;
         symbol = _symbol;
         totalSupply = _totalSupply*(10**decimals);
+        balanceOf[msg.sender]= totalSupply;
     }
 }

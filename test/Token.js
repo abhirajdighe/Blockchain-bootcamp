@@ -4,7 +4,7 @@ const {expect} = require('chai')
 describe("Token",()=>{
     // Testes goes inside here : 
 
-    let token ;
+    let token , deployer, accounts;
     const tokens = (n)=>{
         return ethers.utils.parseUnits(n.toString(),'ether')
     }
@@ -12,7 +12,11 @@ describe("Token",()=>{
         // Fetch the token from blockchain : 
         const Token = await ethers.getContractFactory("Token")
         token = await Token.deploy('Dapp University','DAPP','1000000')
+
+        accounts = await ethers.getSigners();
+        deployer = accounts[0];
     })
+    
 
     describe('Deployment',()=>{
         const name = 'Dapp University';
@@ -41,6 +45,12 @@ describe("Token",()=>{
         it("has correct totalSupply",async ()=>{
             // Check the name is correct : 
             expect(await token.totalSupply()).to.equal(totalSupply)
+        })
+
+        it("assign total supply to developer",async ()=>{
+            // Check the name is correct : 
+            // console.log(deployer.toString())
+            expect(await token.balanceOf(deployer.address)).to.equal(totalSupply)
         })
     })
     
