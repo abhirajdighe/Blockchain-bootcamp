@@ -10,8 +10,10 @@ contract Token{
     uint public totalSupply = 1000000 * (10**decimals);
     // Tracking balance:
     mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address=>uint)) public allowance;
 
     event Transfer(address indexed from,address indexed to,uint value);
+    event approval(address owner,address spender, uint value);
 
     constructor(string memory _name,string memory _symbol,uint _totalSupply){
         name= _name;
@@ -36,4 +38,18 @@ contract Token{
 
         return true;
     }
+
+    function approve(address _spender, uint _value)public returns(bool sucess){
+
+        require(_spender!=address(0));
+
+        allowance[msg.sender][_spender] =_value;
+        emit approval(msg.sender, _spender, _value);
+        return true;
+    }
+
+
+
+
+
 }
