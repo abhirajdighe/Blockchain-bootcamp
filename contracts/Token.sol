@@ -12,8 +12,17 @@ contract Token {
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint)) public allowance;
 
-    event Transfer(address indexed from, address indexed to, uint value);
-    event approval(address owner, address spender, uint value);
+    event Transfer(
+        address indexed from,
+        address indexed to,
+        uint value
+    );
+
+    event approval(
+        address owner,
+        address spender,
+        uint value
+    );
 
     constructor(string memory _name, string memory _symbol, uint _totalSupply) {
         name = _name;
@@ -24,14 +33,14 @@ contract Token {
 
     function transfer(address _to, uint _value) public returns (bool sucess) {
         // Requires that spender has enough amount to spend :
-        require(balanceOf[msg.sender] >= _value);
+        require(balanceOf[msg.sender] >= _value); // balance of sender should be greater than value to be send
         _transfer(msg.sender,_to,_value);
 
         return true;
     }
 
     function _transfer(address _from, address _to, uint _value) internal {
-        require(_to != address(0));
+        require(_to != address(0)); // sender should not be same as receiver 
         
         // debet tokens from account / deduct tokens from spender
         balanceOf[_from] = balanceOf[_from] - _value;
@@ -39,14 +48,14 @@ contract Token {
         balanceOf[_to] = balanceOf[_to] + _value;
 
 
-        emit Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value); // set data on blockchain using event and emit
     }
 
     function approve(
         address _spender,
         uint _value
     ) public returns (bool sucess) {
-        require(_spender != address(0));
+        require(_spender != address(0)); // sender should not be receiver
 
         allowance[msg.sender][_spender] = _value;
         emit approval(msg.sender, _spender, _value);
