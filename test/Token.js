@@ -35,22 +35,22 @@ describe("Token", () => {
         it("has correct symbol", async () => {
             //Read token name : 
             const symbol = await token.symbol();
-            // Check the name is correct : 
+            // Check the symbol is correct : 
             expect(symbol).to.equal(symbol)
         })
 
         it("has correct decimals", async () => {
-            // Check the name is correct : 
+            // Check the decimal is correct : 
             expect(await token.decimals()).to.equal(decimal)
         })
 
         it("has correct totalSupply", async () => {
-            // Check the name is correct : 
+            // Check the total supply is correct : 
             expect(await token.totalSupply()).to.equal(totalSupply)
         })
 
         it("assign total supply to developer", async () => {
-            // Check the name is correct : 
+            // Check the balance of deployer is correct : 
             // console.log(deployer.toString())
             expect(await token.balanceOf(deployer.address)).to.equal(totalSupply)
         })
@@ -73,6 +73,7 @@ describe("Token", () => {
             it("emit a transfer function", async () => {
                 const event = result.events[0]
                 expect(event.event).to.equal('Transfer')
+
                 const args = event.args;
                 expect(args.from).to.equal(deployer.address)
                 expect(args.to).to.equal(receiver.address)
@@ -160,7 +161,7 @@ describe("Token", () => {
 
         describe('failure', async () => {
             const invalidAmount = tokens(100000000);
-            await expect( token.connect(exchange).transferFrom(deployer.address,receiver.address,invalidAmount));
+             expect( await token.connect(exchange).transferFrom(deployer.address,receiver.address,invalidAmount));
         })
     })
 })
